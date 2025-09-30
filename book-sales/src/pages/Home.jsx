@@ -1,27 +1,9 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import BookList from "../components/BookList";
+import { NavLink } from "react-router-dom";
 
 export default function Home() {
-  const location = useLocation();
-
-//   Smooth Scroll
-  useEffect(() => {
-    if (location.hash === "#book") {
-      const el = document.getElementById("book");
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, [location]);
-
-  const scrollToBook = (e) => {
-    e.preventDefault();
-    const el = document.getElementById("book");
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   return (
     <>
-      {/* HOME */}
       <div id="home"></div>
 
       {/* HERO */}
@@ -36,9 +18,9 @@ export default function Home() {
               Harga bersahabat, kurasi berkualitas, dan promo menarik setiap minggu.
             </p>
             <div className="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-              <a href="#book" onClick={scrollToBook} className="btn btn-primary btn-lg px-4 me-md-2 fw-bold">
+              <NavLink to="/book" className="btn btn-primary btn-lg px-4 me-md-2 fw-bold">
                 Belanja Sekarang
-              </a>
+              </NavLink>
               <button type="button" className="btn btn-outline-secondary btn-lg px-4">
                 Lihat Promo
               </button>
@@ -63,14 +45,14 @@ export default function Home() {
               Pilihan pembaca paling diminati—cocok untuk mulai membangun koleksi atau dijadikan hadiah untuk sahabat.
             </p>
             <p>
-              <a href="#book" onClick={scrollToBook} className="btn btn-primary my-2 m-2">Lihat Semua</a>
-              <a href="#book" onClick={scrollToBook} className="btn btn-secondary my-2">Rekomendasi Untukmu</a>
+              <NavLink to="/book" className="btn btn-primary my-2 m-2">Lihat Semua</NavLink>
+              <NavLink to="/book" className="btn btn-secondary my-2">Rekomendasi Untukmu</NavLink>
             </p>
           </div>
         </div>
       </section>
 
-      {/* BOOK (Katalog) */}
+      {/* KATALOG */}
       <div id="book"></div>
       <BookList />
     </>
