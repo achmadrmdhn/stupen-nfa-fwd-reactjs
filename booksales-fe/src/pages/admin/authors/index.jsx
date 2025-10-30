@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAuthors } from "../../../_services/authors";
+import { deleteAuthor, getAuthors } from "../../../_services/authors";
 
 export default function AdminAuthors() {
   const [authors, setAuthors] = useState([]);
@@ -22,6 +22,15 @@ export default function AdminAuthors() {
   const toggleDropdown = (id) => {
     setOpenDropdown(openDropdown === id ? null : id);
   };
+
+  const handleDelete = async (id) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this author?");
+    
+        if (confirmDelete) {
+          await deleteAuthor(id);
+          setAuthors(authors.filter((author) => author.id !== id));
+        }
+      }
 
   return (
     <>
@@ -153,7 +162,7 @@ export default function AdminAuthors() {
                             </ul>
                             <div className="py-1">
                               <button
-                                onClick={""}
+                                onClick={() => handleDelete(author.id)}
                                 className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                               >
                                 Delete
