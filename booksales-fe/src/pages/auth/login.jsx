@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../_services/auth";
-import { useAuth } from "../../contexts/AuthContext"; // Import useAuth yang baru
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,8 +14,8 @@ export default function Login() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Hapus kode: const token = localStorage.getItem("accessToken");
-  // Hapus kode: const decodedData = useDecodeToken(token);
+  // Menghapus kode: const token = localStorage.getItem("accessToken");
+  // Menghapus kode: const decodedData = useDecodeToken(token);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

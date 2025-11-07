@@ -6,14 +6,14 @@ export default function Adminlayout() {
   const navigate = useNavigate();
   const { user, logoutContext } = useAuth(); // Ambil dari Context
 
-  // Hapus semua:
+  // Hapus:
   // const token = localStorage.getItem("accessToken");
   // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   // const decodedData = useDecodeToken(token);
-  // useEffect(() => { ... }); -> Tugas ini sekarang ada di ProtectedRoute
+  // useEffect(() => { ... }); -> Tugas ini ada di ProtectedRoute
 
   const handleLogout = async () => {
-    const token = localStorage.getItem("accessToken"); // Masih perlu token untuk call API logout
+    const token = localStorage.getItem("accessToken"); // Token untuk call API logout
     if (token) {
       await logout({ token });
       logoutContext(); // Panggil fungsi context untuk menghapus status lokal

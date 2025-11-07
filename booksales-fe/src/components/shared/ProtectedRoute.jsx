@@ -5,7 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 const ProtectedRoute = ({ allowedRoles = [] }) => {
     const { isAuthenticated, user, isLoading } = useAuth();
     
-    // AuthProvider sudah menangani isLoading, tapi ini sebagai fallback
+    // AuthProvider menangani isLoading, sebagai fallback
     if (isLoading) {
         return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             Checking Access...

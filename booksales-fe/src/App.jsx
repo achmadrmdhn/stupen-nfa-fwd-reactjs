@@ -16,7 +16,7 @@ import BookEdit from "./pages/admin/books/edit";
 import ShowBook from "./pages/public/books/show";
 import GenreEdit from "./pages/admin/genres/edit";
 import AuthorEdit from "./pages/admin/authors/edit";
-import ProtectedRoute from "./components/shared/ProtectedRoute"; // Import ProtectedRoute
+import ProtectedRoute from "./components/shared/ProtectedRoute";
 
 function App() {
   return (
@@ -36,7 +36,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
 
-          {/* Admin Routes - DIBUNGKUS OLEH ProtectedRoute */}
+          {/* Admin Routes - ProtectedRoute */}
           {/* Hanya role 'admin' yang bisa mengakses rute anak di dalamnya */}
           <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
             {/* AdminLayout kini hanya bertanggung jawab pada tampilan */}
