@@ -1,28 +1,22 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import { logout, useDecodeToken } from "../_services/auth";
-import { useEffect } from "react";
+import { logout } from "../_services/auth";
+import { useAuth } from "../contexts/AuthContext"; // Import useAuth yang baru
 
 export default function Adminlayout() {
   const navigate = useNavigate();
-  const token = localStorage.getItem("accessToken");
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const decodedData = useDecodeToken(token);
+  const { user, logoutContext } = useAuth(); // Ambil dari Context
 
-  useEffect(() => {
-    if (!token || !decodedData || !decodedData.success) {
-      navigate("/login");
-    }
-
-    const role = userInfo.role;
-    if (role !== "admin" || !role) {
-      navigate("/");
-    }
-  }, [token, decodedData, navigate]);
+  // Hapus semua:
+  // const token = localStorage.getItem("accessToken");
+  // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  // const decodedData = useDecodeToken(token);
+  // useEffect(() => { ... }); -> Tugas ini sekarang ada di ProtectedRoute
 
   const handleLogout = async () => {
+    const token = localStorage.getItem("accessToken"); // Masih perlu token untuk call API logout
     if (token) {
       await logout({ token });
-      localStorage.removeItem("userInfo")
+      logoutContext(); // Panggil fungsi context untuk menghapus status lokal
       navigate("/login");
     }
   };
@@ -105,10 +99,11 @@ export default function Adminlayout() {
               </button>
 
               <Link
-                to={"/"}
+                to={"#"}
                 className="bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
               >
-                {userInfo.name}
+                {/* Menggunakan data user dari context */}
+                {user?.name} 
               </Link>
               <button
                 type="button"
@@ -130,10 +125,10 @@ export default function Adminlayout() {
               >
                 <div className="py-3 px-4">
                   <span className="block text-sm font-semibold text-gray-900 dark:text-white">
-                    Neil Sims
+                    {user?.name || "Guest"}
                   </span>
                   <span className="block text-sm text-gray-900 truncate dark:text-white">
-                    name@flowbite.com
+                    {user?.email || "N/A"}
                   </span>
                 </div>
                 <ul
@@ -141,12 +136,12 @@ export default function Adminlayout() {
                   aria-labelledby="dropdown"
                 >
                   <li>
-                    <Link
-                      to={"#"}
-                      className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >
                       Sign Out
-                    </Link>
+                    </button>
                   </li>
                 </ul>
               </div>

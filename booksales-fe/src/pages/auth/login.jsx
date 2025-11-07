@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login, useDecodeToken } from "../../_services/auth";
+import { login } from "../../_services/auth";
+import { useAuth } from "../../contexts/AuthContext"; // Import useAuth yang baru
 
 export default function Login() {
   const navigate = useNavigate();
+  const { loginContext, isAuthenticated, user } = useAuth(); // Ambil dari Context
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -11,8 +14,8 @@ export default function Login() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const token = localStorage.getItem("accessToken");
-  const decodedData = useDecodeToken(token);
+  // Hapus kode: const token = localStorage.getItem("accessToken");
+  // Hapus kode: const decodedData = useDecodeToken(token);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,9 +33,10 @@ export default function Login() {
     try {
       const response = await login(formData);
 
-      localStorage.setItem("accessToken", response.token);
-      localStorage.setItem("userInfo", JSON.stringify(response.user));
+      // Panggil fungsi context
+      loginContext(response.token, response.user); 
 
+      // Redirect berdasarkan role
       return navigate(response.user.role === "admin" ? "/admin" : "/");
     } catch (error) {
       setError(error?.response?.data?.message);
@@ -41,12 +45,19 @@ export default function Login() {
     }
   };
 
+  // Modifikasi useEffect: Cek status dari Context
   useEffect(() => {
-    if (token && decodedData && decodedData.success) {
-      navigate("/admin");
+    if (isAuthenticated) {
+      // Jika sudah terotentikasi, redirect sesuai role
+      if (user?.role === "admin") {
+          navigate("/admin");
+      } else {
+          navigate("/"); 
+      }
     }
-  }, [token, decodedData, navigate]);
-
+  }, [isAuthenticated, user, navigate]); 
+  
+  // ... (JSX tetap sama)
   return (
     <>
       <section className="bg-gray-50 dark:bg-gray-900">
