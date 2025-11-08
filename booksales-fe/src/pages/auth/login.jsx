@@ -57,7 +57,6 @@ export default function Login() {
     }
   }, [isAuthenticated, user, navigate]); 
   
-  // ... (JSX tetap sama)
   return (
     <>
       <section className="bg-gray-50 dark:bg-gray-900">

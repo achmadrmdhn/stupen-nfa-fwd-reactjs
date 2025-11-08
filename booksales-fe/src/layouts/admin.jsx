@@ -6,7 +6,6 @@ export default function Adminlayout() {
   const navigate = useNavigate();
   const { user, logoutContext } = useAuth(); // Ambil dari Context
 
-  // Hapus:
   // const token = localStorage.getItem("accessToken");
   // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   // const decodedData = useDecodeToken(token);
